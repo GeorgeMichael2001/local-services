@@ -1,0 +1,80 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model job_assignments {
+  assignment_id    Int              @id @default(autoincrement())
+  request_id       Int
+  technician_id    Int
+  status           String?          @default("requested") @db.VarChar(30)
+  requested_at     DateTime?        @default(now()) @db.Timestamp(6)
+  accepted_at      DateTime?        @db.Timestamp(6)
+  completed_at     DateTime?        @db.Timestamp(6)
+  service_requests service_requests @relation(fields: [request_id], references: [request_id], onDelete: Cascade, onUpdate: NoAction)
+  technicians      technicians      @relation(fields: [technician_id], references: [technician_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model reviews {
+  review_id        Int              @id @default(autoincrement())
+  request_id       Int              @unique
+  customer_id      Int
+  technician_id    Int
+  rating           Int
+  comment          String?
+  created_at       DateTime?        @default(now()) @db.Timestamp(6)
+  users            users            @relation(fields: [customer_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  service_requests service_requests @relation(fields: [request_id], references: [request_id], onDelete: Cascade, onUpdate: NoAction)
+  technicians      technicians      @relation(fields: [technician_id], references: [technician_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model service_requests {
+  request_id       Int               @id @default(autoincrement())
+  customer_id      Int
+  service_category String            @db.VarChar(100)
+  description      String
+  location         String            @db.VarChar(150)
+  status           String?           @default("pending") @db.VarChar(30)
+  created_at       DateTime?         @default(now()) @db.Timestamp(6)
+  job_assignments  job_assignments[]
+  reviews          reviews?
+  users            users             @relation(fields: [customer_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model technicians {
+  technician_id       Int               @id @default(autoincrement())
+  user_id             Int               @unique
+  service_category    String            @db.VarChar(100)
+  description         String?
+  location            String            @db.VarChar(150)
+  verification_status String?           @default("pending") @db.VarChar(20)
+  availability_status String?           @default("available") @db.VarChar(20)
+  created_at          DateTime?         @default(now()) @db.Timestamp(6)
+  job_assignments     job_assignments[]
+  reviews             reviews[]
+  users               users             @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model users {
+  user_id          Int                @id @default(autoincrement())
+  full_name        String             @db.VarChar(100)
+  phone            String             @unique @db.VarChar(20)
+  email            String?            @unique @db.VarChar(150)
+  password_hash    String
+  role             String             @db.VarChar(20)
+  created_at       DateTime?          @default(now()) @db.Timestamp(6)
+  reviews          reviews[]
+  service_requests service_requests[]
+  technicians      technicians?
+}
