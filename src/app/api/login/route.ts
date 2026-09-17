@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { createSession } from "@/lib/session";
 import bcrypt from "bcryptjs";
+import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   try {
@@ -49,12 +50,22 @@ export async function POST(request: Request) {
       );
     }
 
-    const sessionToken = await createSession(
+    const token = await createSession(
       user.user_id,
       user.role
     );
 
-    const response = Response.json(
+    const cookieStore = await cookies();
+
+    cookieStore.set("session", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    return Response.json(
       {
         success: true,
         message: "Login successful.",
@@ -68,17 +79,6 @@ export async function POST(request: Request) {
       },
       { status: 200 }
     );
-
-    response.headers.set(
-      "Set-Cookie",
-      `session=${sessionToken}; HttpOnly; Path=/; Max-Age=604800; SameSite=Lax${
-        process.env.NODE_ENV === "production"
-          ? "; Secure"
-          : ""
-      }`
-    );
-
-    return response;
   } catch (error) {
     console.error("Login error:", error);
 
