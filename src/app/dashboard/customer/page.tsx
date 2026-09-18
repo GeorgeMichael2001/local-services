@@ -1,3 +1,4 @@
+import LogoutButton from "@/components/LogoutButton";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -61,9 +62,7 @@ export default async function CustomerDashboard() {
             {user.full_name}
           </span>
 
-          <button className={styles.logoutButton}>
-            Logout
-          </button>
+          <LogoutButton />
         </div>
       </nav>
 
