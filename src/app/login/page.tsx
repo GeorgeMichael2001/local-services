@@ -48,12 +48,10 @@ export default function LoginPage() {
   return (
     <main className="auth-page">
       <div className="auth-card">
-        <h1>Welcome Back</h1>
+        <h1>Login</h1>
 
-        <p className="auth-subtitle">
-          Login to your Local Services account.
-        </p>
-
+        
+          
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="phone">Phone Number</label>

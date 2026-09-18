@@ -1,0 +1,215 @@
+.dashboard {
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.navbar {
+  height: 72px;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.userName {
+  color: #374151;
+  font-size: 14px;
+}
+
+.logoutButton {
+  padding: 9px 18px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px 70px;
+}
+
+.welcome {
+  margin-bottom: 32px;
+}
+
+.label {
+  margin: 0 0 8px;
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.welcome h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.welcome p:last-child {
+  margin-top: 12px;
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.requestSection {
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  margin-bottom: 40px;
+}
+
+.requestSection h2 {
+  margin: 0 0 8px;
+  color: #111827;
+  font-size: 22px;
+}
+
+.requestSection p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.primaryButton {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 7px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.servicesSection,
+.requestsSection {
+  margin-bottom: 40px;
+}
+
+.sectionHeader {
+  margin-bottom: 20px;
+}
+
+.sectionHeader h2 {
+  margin: 0 0 6px;
+  color: #111827;
+  font-size: 24px;
+}
+
+.sectionHeader p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.serviceCard {
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.serviceCard h3 {
+  margin: 0 0 12px;
+  color: #111827;
+  font-size: 18px;
+}
+
+.serviceCard p {
+  min-height: 66px;
+  margin: 0 0 20px;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.serviceCard button {
+  padding: 9px 14px;
+  border: 1px solid #2563eb;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.emptyState {
+  padding: 48px 24px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.emptyState h3 {
+  margin: 0 0 8px;
+  color: #111827;
+  font-size: 18px;
+}
+
+.emptyState p {
+  margin: 0 0 24px;
+  color: #6b7280;
+}
+
+@media (max-width: 900px) {
+  .serviceGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .userName {
+    display: none;
+  }
+
+  .content {
+    padding: 32px 16px 50px;
+  }
+
+  .welcome h1 {
+    font-size: 28px;
+  }
+
+  .requestSection {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .serviceGrid {
+    grid-template-columns: 1fr;
+  }
+}
