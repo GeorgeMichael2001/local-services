@@ -1,0 +1,140 @@
+.page {
+  min-height: 100vh;
+  background: #f7f8fa;
+  padding: 40px 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.backButton {
+  border: none;
+  background: transparent;
+  color: #4b5563;
+  padding: 0;
+  margin-bottom: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.backButton:hover {
+  color: #111827;
+}
+
+.header {
+  margin-bottom: 30px;
+}
+
+.label {
+  margin: 0 0 8px;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.header h1 {
+  margin: 0 0 12px;
+  color: #111827;
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.header p {
+  margin: 0;
+  max-width: 620px;
+  color: #6b7280;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.form {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.field {
+  margin-bottom: 22px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.error {
+  margin: 0 0 20px;
+  color: #b91c1c;
+  font-size: 14px;
+}
+
+.submitButton {
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  background: #111827;
+  color: #ffffff;
+  padding: 13px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background: #1f2937;
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 25px 15px;
+  }
+
+  .form {
+    padding: 22px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+  }
+}
