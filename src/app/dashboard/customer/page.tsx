@@ -1,3 +1,4 @@
+import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -90,9 +91,12 @@ export default async function CustomerDashboard() {
             </p>
           </div>
 
-          <button className={styles.primaryButton}>
-            Request a Service
-          </button>
+          <Link
+  href="/dashboard/customer/request-service"
+  className={styles.primaryButton}
+>
+  Request a Service
+</Link>
         </section>
 
         <section className={styles.servicesSection}>
@@ -172,9 +176,12 @@ export default async function CustomerDashboard() {
               you submit one.
             </p>
 
-            <button className={styles.primaryButton}>
-              Request Your First Service
-            </button>
+            <Link
+  href="/dashboard/customer/request-service"
+  className={styles.primaryButton}
+>
+  Request Your First Service
+</Link>
           </div>
         </section>
       </section>
