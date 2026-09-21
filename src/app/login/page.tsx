@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
+import styles from "./login.module.css";
+
 export default function LoginPage() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -46,56 +48,89 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="auth-page">
-      <div className="auth-card">
-        <h1>Login</h1>
+    <main className={styles.page}>
+      <div className={styles.card}>
+        <div className={styles.blackSection}>
+          <div className={styles.blackContent}>
+            <p className={styles.brand}>
+              Local<span>Services</span>
+            </p>
 
-        
-          
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="phone">Phone Number</label>
+            <h1>Welcome back</h1>
 
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              placeholder="Enter your phone number"
-              required
-            />
+            <p>
+              Sign in to continue finding trusted
+              service providers.
+            </p>
           </div>
+        </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
+        <div className={styles.formSection}>
+          <div className={styles.formContent}>
+            <h2>Login</h2>
 
-            <input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="Enter your password"
-              required
-            />
+            <p className={styles.subtitle}>
+              Sign in to your Local Services account.
+            </p>
+
+            <form
+              onSubmit={handleSubmit}
+              className={styles.form}
+            >
+              <div className={styles.formGroup}>
+                <label htmlFor="phone">
+                  Phone Number
+                </label>
+
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="Enter your phone number"
+                  autoComplete="tel"
+                  required
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="password">
+                  Password
+                </label>
+
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  autoComplete="current-password"
+                  required
+                />
+              </div>
+
+              {message && (
+                <p className={styles.message}>
+                  {message}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                className={styles.button}
+                disabled={loading}
+              >
+                {loading ? "Logging in..." : "Login"}
+              </button>
+            </form>
+
+            <div className={styles.footer}>
+              <span>Don't have an account?</span>
+
+              <Link href="/register">
+                Sign up
+              </Link>
+            </div>
           </div>
-
-          <button
-            type="submit"
-            className="auth-button"
-            disabled={loading}
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
-
-        {message && (
-          <p className="auth-footer">
-            {message}
-          </p>
-        )}
-
-        <p className="auth-footer">
-          Don't have an account?{" "}
-          <Link href="/register">Create one</Link>
-        </p>
+        </div>
       </div>
     </main>
   );
