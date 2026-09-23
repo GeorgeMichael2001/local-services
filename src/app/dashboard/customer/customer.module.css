@@ -102,7 +102,6 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  text-decoration: none;
 }
 
 .servicesSection,
@@ -212,5 +211,83 @@
 
   .serviceGrid {
     grid-template-columns: 1fr;
+  }
+}
+.requestList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.requestCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e2e6eb;
+  border-radius: 12px;
+}
+
+.requestMain {
+  flex: 1;
+}
+
+.requestMain h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #172033;
+}
+
+.requestMain p {
+  margin: 0 0 12px;
+  color: #596579;
+  line-height: 1.6;
+}
+
+.requestLocation {
+  display: inline-block;
+  font-size: 14px;
+  color: #596579;
+}
+
+.requestMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  min-width: 110px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #eef3f8;
+  color: #34445c;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.requestDate {
+  font-size: 13px;
+  color: #7a8494;
+}
+
+@media (max-width: 640px) {
+  .requestCard {
+    flex-direction: column;
+  }
+
+  .requestMeta {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 }

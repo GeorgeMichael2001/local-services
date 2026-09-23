@@ -51,6 +51,15 @@ export default async function CustomerDashboard() {
     redirect("/login");
   }
 
+  const serviceRequests = await prisma.service_requests.findMany({
+    where: {
+      customer_id: session.userId,
+    },
+    orderBy: {
+      created_at: "desc",
+    },
+  });
+
   return (
     <main className={styles.dashboard}>
       <nav className={styles.navbar}>
@@ -69,7 +78,9 @@ export default async function CustomerDashboard() {
 
       <section className={styles.content}>
         <div className={styles.welcome}>
-          <p className={styles.label}>Customer Dashboard</p>
+          <p className={styles.label}>
+            Customer Dashboard
+          </p>
 
           <h1>
             Welcome, {user.full_name}
@@ -92,11 +103,11 @@ export default async function CustomerDashboard() {
           </div>
 
           <Link
-  href="/dashboard/customer/request-service"
-  className={styles.primaryButton}
->
-  Request a Service
-</Link>
+            href="/dashboard/customer/request-service"
+            className={styles.primaryButton}
+          >
+            Request a Service
+          </Link>
         </section>
 
         <section className={styles.servicesSection}>
@@ -119,7 +130,12 @@ export default async function CustomerDashboard() {
                 maintenance.
               </p>
 
-              <button>Find a Provider</button>
+              <Link
+  href="/dashboard/customer/providers?service=Plumbing"
+  className={styles.primaryButton}
+>
+  Find a Provider
+</Link>
             </div>
 
             <div className={styles.serviceCard}>
@@ -130,7 +146,12 @@ export default async function CustomerDashboard() {
                 maintenance.
               </p>
 
-              <button>Find a Provider</button>
+              <Link
+  href="/dashboard/customer/providers?service=Electrical"
+  className={styles.primaryButton}
+>
+  Find a Provider
+</Link>
             </div>
 
             <div className={styles.serviceCard}>
@@ -141,7 +162,12 @@ export default async function CustomerDashboard() {
                 appliances.
               </p>
 
-              <button>Find a Provider</button>
+              <Link
+  href="/dashboard/customer/providers?service=Appliance%20Repair"
+  className={styles.primaryButton}
+>
+  Find a Provider
+</Link>
             </div>
 
             <div className={styles.serviceCard}>
@@ -152,7 +178,12 @@ export default async function CustomerDashboard() {
                 support.
               </p>
 
-              <button>Find a Provider</button>
+              <Link
+  href="/dashboard/customer/providers?service=Computer%20Services"
+  className={styles.primaryButton}
+>
+  Find a Provider
+</Link>
             </div>
           </div>
         </section>
@@ -168,21 +199,54 @@ export default async function CustomerDashboard() {
             </div>
           </div>
 
-          <div className={styles.emptyState}>
-            <h3>No service requests yet</h3>
+          {serviceRequests.length === 0 ? (
+            <div className={styles.emptyState}>
+              <h3>No service requests yet</h3>
 
-            <p>
-              Your service requests will appear here after
-              you submit one.
-            </p>
+              <p>
+                Your service requests will appear here after
+                you submit one.
+              </p>
 
-            <Link
-  href="/dashboard/customer/request-service"
-  className={styles.primaryButton}
->
-  Request Your First Service
-</Link>
-          </div>
+              <Link
+                href="/dashboard/customer/request-service"
+                className={styles.primaryButton}
+              >
+                Request Your First Service
+              </Link>
+            </div>
+          ) : (
+            <div className={styles.requestList}>
+              {serviceRequests.map((request) => (
+                <div
+                  key={request.request_id}
+                  className={styles.requestCard}
+                >
+                  <div className={styles.requestMain}>
+                    <h3>{request.service_category}</h3>
+
+                    <p>{request.description}</p>
+
+                    <span className={styles.requestLocation}>
+                      {request.location}
+                    </span>
+                  </div>
+
+                  <div className={styles.requestMeta}>
+                    <span className={styles.status}>
+                      {request.status}
+                    </span>
+
+                    <span className={styles.requestDate}>
+  {request.created_at
+    ? request.created_at.toLocaleDateString()
+    : "Date not available"}
+</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
       </section>
     </main>

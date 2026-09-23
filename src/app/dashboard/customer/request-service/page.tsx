@@ -1,24 +1,30 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 
 import styles from "./request-service.module.css";
 
 export default function RequestServicePage() {
-  const router = useRouter();
-
-  const [serviceCategory, setServiceCategory] = useState("");
-  const [description, setDescription] = useState("");
-  const [location, setLocation] = useState("");
-  const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const data = {
+      serviceCategory: formData.get("serviceCategory"),
+      description: formData.get("description"),
+      location: formData.get("location"),
+    };
+
+    setLoading(true);
     setMessage("");
-    setSubmitting(true);
+    setSuccess(false);
 
     try {
       const response = await fetch("/api/service-requests", {
@@ -26,142 +32,133 @@ export default function RequestServicePage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          serviceCategory,
-          description,
-          location,
-        }),
+        body: JSON.stringify(data),
       });
 
       const result = await response.json();
 
-      if (!response.ok) {
-        setMessage(
-          result.message || "Unable to submit service request."
-        );
-        setSubmitting(false);
-        return;
+      if (response.ok) {
+        setSuccess(true);
+        setMessage("Your service request has been submitted successfully.");
+        form.reset();
+      } else {
+        setMessage(result.message);
       }
-
-      router.push("/dashboard/customer");
-      router.refresh();
-    } catch {
-      setMessage("Something went wrong. Please try again.");
-      setSubmitting(false);
+    } catch (error) {
+      console.error(error);
+      setMessage("Unable to connect to the server.");
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <main className={styles.page}>
       <div className={styles.container}>
-        <button
-          type="button"
-          className={styles.backButton}
-          onClick={() => router.push("/dashboard/customer")}
-        >
-          Back to Dashboard
-        </button>
-
         <div className={styles.header}>
-          <p className={styles.label}>Service Request</p>
+          <Link
+            href="/dashboard/customer"
+            className={styles.backLink}
+          >
+            Back to Dashboard
+          </Link>
+
+          <p className={styles.label}>Local Services</p>
 
           <h1>Request a Service</h1>
 
-          <p>
+          <p className={styles.subtitle}>
             Tell us what service you need and where you need it.
             We will help connect you with a suitable provider.
           </p>
         </div>
 
-        <form
-          className={styles.form}
-          onSubmit={handleSubmit}
-        >
-          <div className={styles.field}>
-            <label htmlFor="serviceCategory">
-              Service Category
-            </label>
+        <section className={styles.card}>
+          <form onSubmit={handleSubmit}>
+            <div className={styles.formGroup}>
+              <label htmlFor="serviceCategory">
+                Service Category
+              </label>
 
-            <select
-              id="serviceCategory"
-              value={serviceCategory}
-              onChange={(event) =>
-                setServiceCategory(event.target.value)
-              }
-              required
+              <select
+                id="serviceCategory"
+                name="serviceCategory"
+                required
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  Select a service
+                </option>
+
+                <option value="Plumbing">
+                  Plumbing
+                </option>
+
+                <option value="Electrical">
+                  Electrical
+                </option>
+
+                <option value="Appliance Repair">
+                  Appliance Repair
+                </option>
+
+                <option value="Computer Services">
+                  Computer Services
+                </option>
+              </select>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="description">
+                Describe the Problem
+              </label>
+
+              <textarea
+                id="description"
+                name="description"
+                placeholder="Describe the service you need..."
+                rows={6}
+                required
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="location">
+                Location
+              </label>
+
+              <input
+                id="location"
+                name="location"
+                type="text"
+                placeholder="e.g. Ntinda, Kampala"
+                required
+              />
+            </div>
+
+            {message && (
+              <div
+                className={
+                  success
+                    ? styles.successMessage
+                    : styles.errorMessage
+                }
+              >
+                {message}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className={styles.submitButton}
+              disabled={loading}
             >
-              <option value="">
-                Select a service
-              </option>
-
-              <option value="Plumbing">
-                Plumbing
-              </option>
-
-              <option value="Electrical">
-                Electrical
-              </option>
-
-              <option value="Appliance Repair">
-                Appliance Repair
-              </option>
-
-              <option value="Computer Services">
-                Computer Services
-              </option>
-            </select>
-          </div>
-
-          <div className={styles.field}>
-            <label htmlFor="description">
-              Describe the problem
-            </label>
-
-            <textarea
-              id="description"
-              value={description}
-              onChange={(event) =>
-                setDescription(event.target.value)
-              }
-              placeholder="Example: Burst water pipe at my shop."
-              rows={6}
-              required
-            />
-          </div>
-
-          <div className={styles.field}>
-            <label htmlFor="location">
-              Location
-            </label>
-
-            <input
-              id="location"
-              type="text"
-              value={location}
-              onChange={(event) =>
-                setLocation(event.target.value)
-              }
-              placeholder="Example: Ntinda, Kampala"
-              required
-            />
-          </div>
-
-          {message && (
-            <p className={styles.error}>
-              {message}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            className={styles.submitButton}
-            disabled={submitting}
-          >
-            {submitting
-              ? "Submitting..."
-              : "Submit Service Request"}
-          </button>
-        </form>
+              {loading
+                ? "Submitting..."
+                : "Submit Service Request"}
+            </button>
+          </form>
+        </section>
       </div>
     </main>
   );
