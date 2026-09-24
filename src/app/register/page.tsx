@@ -17,6 +17,7 @@ export default function RegisterPage() {
 
     const password = String(formData.get("password") || "");
     const confirmPassword = String(
+
       formData.get("confirmPassword") || ""
     );
 
