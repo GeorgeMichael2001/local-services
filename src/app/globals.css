@@ -28,8 +28,7 @@ h3,
   height: 78px;
   padding: 0 8%;
   background: #f5f7fa;
-  border-bottom: none;
-
+  border-bottom: 1px solid #e0e4e8;
 }
 
 .logo {
@@ -141,6 +140,7 @@ h3,
 .service-item {
   display: flex;
   align-items: center;
+  gap: 12px;
   min-height: 58px;
   padding: 0 16px;
   margin-bottom: 10px;
@@ -154,6 +154,13 @@ h3,
 
 .service-item:last-child {
   margin-bottom: 0;
+}
+
+.service-item svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke: #2563eb;
 }
 
 /* Services */
@@ -185,6 +192,13 @@ h3,
   border: 1px solid #e5e7eb;
   border-radius: 10px;
   text-align: left;
+}
+
+.service-box svg {
+  width: 24px;
+  height: 24px;
+  stroke: #2563eb;
+  margin-bottom: 14px;
 }
 
 .service-box h3 {
